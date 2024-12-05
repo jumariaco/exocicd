@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import './TodoList.css';
 
+
 function readFromLocaleStorage() {
   const todos = localStorage.getItem('todos');
   console.log(todos)
@@ -38,6 +39,10 @@ function TodoList() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const clearCompleted = () => {
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
+
   return (
     <div className="todo-list">
       <form className="todo-list-form" onSubmit={handleSubmit}>
@@ -66,6 +71,11 @@ function TodoList() {
           ))
         )}
       </ul>
+      {todos.some((todo) => todo.completed) && ( // Afficher le bouton uniquement si des tâches sont complétées
+        <button className="todo-list-clear-completed" onClick={clearCompleted}>
+          Clear Completed
+        </button>
+      )}
     </div>
   );
 }
